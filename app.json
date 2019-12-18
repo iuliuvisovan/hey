@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "hey!",
+    "name": "Hey!",
     "slug": "hey",
     "privacy": "public",
     "sdkVersion": "32.0.0",
@@ -16,6 +16,11 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "notification": {
+      "icon": "./assets/notification.png",
+      "color": "#000000",
+      "androidMode": "default"
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -23,7 +28,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "net.iuliu.hey"
+    },
+    "android": {
+      "package": "net.iuliu.hey"
     }
   }
 }
