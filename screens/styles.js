@@ -4,10 +4,11 @@ export default StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'flex-end'
   },
   receivedMessagesWrapper: {
-    maxHeight: Dimensions.get('window').height - 250,
+    maxHeight: Dimensions.get('window').height - 130,
     minHeight: Dimensions.get('window').height - 250,
     borderWidth: 1,
     borderColor: '#00bcd4'
@@ -60,11 +61,11 @@ export default StyleSheet.create({
   bottomWrapper: {
     position: 'absolute',
     bottom: 15,
-    left: 15
+    left: 15,
   },
   topWrapper: {
     alignItems: 'center',
-    paddingTop: 35
+    paddingTop: 35,
   },
   registrationNumber: {
     fontSize: 18,

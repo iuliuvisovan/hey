@@ -36,7 +36,9 @@ export default class App extends Component {
   register = async () => {
     const { registrationNumber } = this.state;
     AsyncStorage.setItem('registrationNumber', registrationNumber);
-    await this.registerForNotifications();
+    try {
+      await this.registerForNotifications();
+    } catch (e) {}
     this.props.navigation.navigate('App');
   };
 

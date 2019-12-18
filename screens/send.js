@@ -112,67 +112,12 @@ export default class App extends React.Component {
     }
   };
 
-  register = async () => {
-    const { text } = this.state;
-    this.setState({ registrationNumber: text });
-    AsyncStorage.setItem('registrationNumber', text);
-
-    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-    let finalStatus = existingStatus;
-
-    if (existingStatus !== 'granted') {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-
-    if (finalStatus !== 'granted') {
-      return;
-    }
-
-    let token = await Notifications.getExpoPushTokenAsync();
-
-    await fetch(`${baseUrl}/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        registrationNumber: text,
-        token
-      })
-    });
-
-    setTimeout(this.loadMessages, 0);
-  };
-
-  loadMessages = async () => {
-    this.setState({ refreshing: true });
-    const receivedMessages = await (
-      await fetch(`${baseUrl}/my-messages?registrationNumber=${this.state.registrationNumber}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-    ).json();
-    if (receivedMessages.length)
-      receivedMessages.sort((a, b) => +new Date(b.date) - +new Date(a.date))[0].expanded = true;
-    this.setState({ receivedMessages, refreshing: false });
-  };
-
   contactDriver = () => {
     const { targetText } = this.state;
     if ((targetText || '').trim().length < 6) return;
     if (/[A-Z]/.test(targetText) && /[0-9]/.test(targetText)) {
       this.setState({ targetRegistrationNumber: targetText });
     }
-  };
-
-  selectMessage = id => {
-    (this.state.messages.find(x => x.selected) || {}).selected = false;
-    const message = this.state.messages.find(x => x.id == id);
-    if (message) message.selected = !message.selected;
-    this.setState({});
   };
 
   sendMessage = async () => {
@@ -217,13 +162,6 @@ export default class App extends React.Component {
     this.setState({ targetRegistrationNumber: '' });
   };
 
-  expandMessage = _id => {
-    (this.state.receivedMessages.find(x => x.expanded && x._id != _id) || {}).expanded = false;
-    const message = this.state.receivedMessages.find(x => x._id == _id);
-    if (message) message.expanded = !message.expanded;
-    this.setState({});
-  };
-
   replyToDriver = targetRegistrationNumber => {
     this.setState({ targetRegistrationNumber });
   };
@@ -245,11 +183,6 @@ export default class App extends React.Component {
           </View>
         ) : (
           <>
-            {!Boolean(targetRegistrationNumber) && (
-              <View style={styles.bottomWrapper}>
-                <Text>Tu vei fi contactat la acest numar: {this.state.registrationNumber}</Text>
-              </View>
-            )}
             <View style={styles.accessedPageWrapper}>
               <View style={styles.topWrapper}>
                 {!Boolean(targetRegistrationNumber) && (

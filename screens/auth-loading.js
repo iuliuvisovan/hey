@@ -4,7 +4,7 @@ import { Notifications } from 'expo';
 
 export default class AuthLoading extends Component {
   async componentDidMount() {
-    await AsyncStorage.clear();
+    // await AsyncStorage.clear();
     const registrationNumber = await AsyncStorage.getItem('registrationNumber');
     if (registrationNumber) {
       global.registrationNumber = registrationNumber;
