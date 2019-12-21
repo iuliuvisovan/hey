@@ -47,11 +47,13 @@ export default class Login extends Component {
       },
       body: JSON.stringify({ registrationNumber, phoneNumber })
     });
-    this.props.navigation.navigate('App');
-    setTimeout(() => {
+    const onSave = this.props.navigation.getParam('onSave');
+    if (onSave) {
       this.props.navigation.goBack();
-      this.props.navigation.getParam('onSave')();
-    }, 0);
+      onSave();
+    } else {
+      this.props.navigation.navigate('App');
+    }
   };
 
   isSaveButtonDisabled = () => {
