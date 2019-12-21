@@ -7,70 +7,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end'
   },
-  receivedMessagesWrapper: {
-    maxHeight: Dimensions.get('window').height - 130,
-    minHeight: Dimensions.get('window').height - 250,
-    borderWidth: 1,
-    borderColor: '#00bcd4'
-  },
-  receivedMessageWrapper: {
-    padding: 15,
-    borderColor: '#788190',
-    borderBottomWidth: 0.6
-  },
-  receivedMessageInfo: {},
-  receivedMessage: {
-    fontWeight: '500',
-    color: '#677080',
-    fontSize: 18,
-    marginVertical: 1
-  },
-  buttonsWrapper: {
-    position: 'absolute',
-    bottom: 0,
-    padding: 30,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%'
-  },
-  message: {
-    backgroundColor: '#78819077',
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    borderRadius: 1,
-    textAlign: 'center',
-    marginTop: 10,
-    marginHorizontal: 15,
-    fontSize: 16,
-    color: 'white'
-  },
-  messagesWrapper: {
-    maxHeight: Dimensions.get('window').height - 200,
-    minHeight: Dimensions.get('window').height - 200,
-    borderColor: '#00bcd4',
-    marginVertical: 25,
-    marginBottom: 50
-  },
-  messagesWrapperContainer: {
-    alignItems: 'center'
-  },
-  accessedPageWrapper: {
-    justifyContent: 'space-between',
-    flex: 1
-  },
-  bottomWrapper: {
-    position: 'absolute',
-    bottom: 15,
-    left: 15,
-  },
-  topWrapper: {
-    alignItems: 'center',
-    paddingTop: 35,
-  },
-  registrationNumber: {
-    fontSize: 18,
-    marginTop: 5,
-    fontWeight: '500'
+  selectMessagesWrapper: {
+    flex: 1,
+    backgroundColor: '#d6d9dc',
+    paddingHorizontal: 8
   },
   input: {
     borderWidth: 1,
@@ -80,5 +20,69 @@ export default StyleSheet.create({
     marginVertical: 10,
     width: 150,
     borderRadius: 5
+  },
+  numberList: {
+    width: Dimensions.get('screen').width,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 16
+  },
+  number: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  contactButton: {
+    padding: 8,
+    borderRadius: 4,
+    backgroundColor: '#5DBCD2',
+    marginTop: 18,
+    paddingTop: 4
+  },
+  contactLabel: {
+    fontSize: 14,
+    marginTop: 4,
+    color: '#fff',
+    fontWeight: '500'
+  },
+  addButton: {
+    color: '#5DBCD2',
+    fontSize: 12,
+    marginTop: 4
+  },
+  message: {
+    alignItems: 'center',
+    padding: 8,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    marginTop: 8
+  },
+  topMessage: {
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#fff',
+    marginHorizontal: -8,
+    shadowOffset: { width: -4, height: 0 },
+    shadowRadius: 6,
+    shadowColor: 'black',
+    shadowOpacity: 0.4
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginHorizontal: -16,
+    marginTop: 16,
+    marginBottom: -16
+  },
+  bigButton: {
+    width: Dimensions.get('screen').width / 2,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  bigbuttonLabel: {
+    fontSize: 14,
+    marginTop: 4,
+    color: '#fff',
+    fontWeight: '700'
   }
 });

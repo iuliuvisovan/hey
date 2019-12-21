@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Keyboard, AsyncStorage, Dimensions, Alert } from 'react-native';
-import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import moment from 'moment';
 moment.locale('ro');
@@ -36,37 +35,7 @@ export default class App extends Component {
   register = async () => {
     const { registrationNumber } = this.state;
     AsyncStorage.setItem('registrationNumber', registrationNumber);
-    try {
-      await this.registerForNotifications();
-    } catch (e) {}
     this.props.navigation.navigate('App');
-  };
-
-  registerForNotifications = async () => {
-    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-    let finalStatus = existingStatus;
-
-    if (existingStatus !== 'granted') {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-
-    if (finalStatus !== 'granted') {
-      return;
-    }
-
-    let token = await Notifications.getExpoPushTokenAsync();
-
-    await fetch(`${baseUrl}/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        registrationNumber: text,
-        token
-      })
-    });
   };
 
   render() {
@@ -80,7 +49,7 @@ export default class App extends Component {
             style={styles.input}
             placeholder="e.g. BZ63VMD"
           />
-          <Button color="#00bcd4" onPress={this.submit} title="Continua" />
+          <Button color="#00bcd4" onPress={this.submit} title="Salveaza" />
         </View>
       </View>
     );

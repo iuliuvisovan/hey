@@ -1,44 +1,29 @@
-import React, { Component } from 'react';
-import MessageScreen from './screens/messages';
-import SendMessageScreen from './screens/send';
+import SearchNumberScreen from './screens/search-number';
+import SelectMessageScreen from './screens/select-message';
 import LoginScreen from './screens/login';
 import AuthLoadingScreen from './screens/auth-loading';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { Ionicons } from '@expo/vector-icons';
+import { createStackNavigator } from 'react-navigation-stack';
 
-const MainTabNavigator = createAppContainer(
-  createBottomTabNavigator({
-    Mesaje: {
-      screen: MessageScreen,
+const AppNavigator = createStackNavigator(
+  {
+    SearchNumber: {
+      screen: SearchNumberScreen,
       navigationOptions: {
-        tabBarIcon: ({ tintColor, focused }) => <Ionicons name="ios-chatboxes" size={30} color={focused ? "#00bcd4": "#717171"} />,
+        title: 'Cauta numar de inmatriculare'
       }
     },
-    Contacteaza: {
-      screen: SendMessageScreen,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor, focused }) => <Ionicons name="ios-send" size={30} color={focused ? "#00bcd4": "#717171"} />
-      }
-    }
-  }, {
-    tabBarOptions: {
-      activeTintColor: '#00bcd4',
-      inactiveTintColor: "#717171"
-    }
-  })
-);
-
-class App extends Component {
-  render() {
-    return <MainTabNavigator />;
+    SelectMessage: SelectMessageScreen
+  },
+  {
+    headerMode: 'screen'
   }
-}
+);
 
 export default createAppContainer(
   createSwitchNavigator({
     AuthLoading: AuthLoadingScreen,
     Login: LoginScreen,
-    App
+    App: AppNavigator
   })
 );
