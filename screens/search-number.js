@@ -3,14 +3,17 @@ import { Text, View, TextInput, Keyboard, AsyncStorage, Alert } from 'react-nati
 import styles from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const useRemote = true;
-const baseUrl = useRemote ? 'https://hey-server.herokuapp.com' : 'http://192.168.1.117:3000';
-
 export default class App extends React.Component {
   state = {
-    // query: 'CJ68VIA'
-    query: ''
+    query: '',
+    availableNumbers: []
   };
+
+  async componentDidMount() {
+    const availableNumbers = await (await fetch(global.baseUrl + '/availableNumbers')).json();
+    this.setState({ availableNumbers });
+    console.log('availableNumbers', availableNumbers);
+  }
 
   selectNumber = () => {
     this.props.navigation.navigate('SelectMessage', { carNumber: this.state.query.trim() });
@@ -58,7 +61,7 @@ export default class App extends React.Component {
   };
 
   render() {
-    const { query } = this.state;
+    const { query, availableNumbers } = this.state;
 
     const matches = availableNumbers.filter(x => x.toLowerCase().includes(query.trim().toLowerCase()));
 
@@ -106,15 +109,3 @@ const Number = ({ number, isAvailable, onPress }) => (
     )}
   </View>
 );
-
-const availableNumbers = [
-  'CJ68VAA',
-  'CJ68VBA',
-  'CJ68VCA',
-  'CJ68VDA',
-  'CJ68VEA',
-  'CJ68VFA',
-  'CJ68VGA',
-  'CJ68VHA',
-  'CJ68VIA'
-];

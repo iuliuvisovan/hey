@@ -19,11 +19,19 @@ const AppNavigator = createStackNavigator(
     headerMode: 'screen'
   }
 );
+const AuthNavigator = createStackNavigator({
+  Login: {
+    screen: LoginScreen,
+    navigationOptions: {
+      title: 'Inregistreaza-te'
+    }
+  }
+});
 
 export default createAppContainer(
   createSwitchNavigator({
     AuthLoading: AuthLoadingScreen,
-    Login: LoginScreen,
+    Login: AuthNavigator,
     App: AppNavigator
   })
 );

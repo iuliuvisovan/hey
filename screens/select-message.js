@@ -3,9 +3,6 @@ import { Text, View, TextInput, Keyboard, AsyncStorage, Alert, LayoutAnimation }
 import styles from './styles';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 
-const useRemote = true;
-const baseUrl = useRemote ? 'https://hey-server.herokuapp.com' : 'http://192.168.1.117:3000';
-
 export default class App extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const carNumber = navigation.getParam('carNumber');
@@ -105,8 +102,8 @@ export default class App extends React.Component {
 
         <ScrollView style={{ paddingTop: 8 }}>
           <Text style={{ marginTop: 8 }}>Selecteaza:</Text>
-          {availableMessages.map(({ id, text }) => (
-            <TouchableOpacity disabled={selectedMessageId != null} key={id} onPress={() => this.selectMessage(id)}>
+          {availableMessages.map(({ id, text }, i) => (
+            <TouchableOpacity disabled={selectedMessageId != null} key={i} onPress={() => this.selectMessage(id)}>
               <View
                 style={[
                   styles.message,

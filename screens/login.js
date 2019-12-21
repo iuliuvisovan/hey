@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, Keyboard, AsyncStorage, Dimensions, Alert } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TextInput,
+  Keyboard,
+  AsyncStorage,
+  Dimensions,
+  Alert,
+  TouchableOpacityBase
+} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import moment from 'moment';
 moment.locale('ro');
 import styles from './styles';
-
-const useRemote = true;
-const baseUrl = useRemote ? 'https://hey-server.herokuapp.com' : 'http://192.168.1.117:3000';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class App extends Component {
   state = {
@@ -14,16 +23,16 @@ export default class App extends Component {
   };
 
   submit = () => {
-    const { registrationNumber } = this.state;
+    const { registrationNumber, phoneNumber } = this.state;
     if ((registrationNumber || '').trim().length < 6) return;
     if (/[A-Z]/.test(registrationNumber) && /[0-9]/.test(registrationNumber) && !/\s/.test(registrationNumber)) {
       Alert.alert(
-        'Confirma',
-        `${registrationNumber}\n\nE ok acest numar? \n(va fi folosit de alti soferi ca sa te contacteze)`,
+        'Verifica datele',
+        `\nNr. inmatriculare:\n${registrationNumber}\n\nTelefon:\n${phoneNumber}`,
         [
-          { text: 'Nu, hopa', onPress: () => {} },
+          { text: 'Nu, hopa', onPress: () => {}, style: 'cancel' },
           {
-            text: 'Da',
+            text: 'Sunt corecte',
             onPress: this.register
           }
         ],
@@ -33,23 +42,40 @@ export default class App extends Component {
   };
 
   register = async () => {
-    const { registrationNumber } = this.state;
+    const { registrationNumber, phoneNumber } = this.state;
     AsyncStorage.setItem('registrationNumber', registrationNumber);
+    await fetch(global.baseUrl + '/register', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ registrationNumber, phoneNumber })
+    });
     this.props.navigation.navigate('App');
   };
 
   render() {
     return (
       <View style={styles.container} onTouchStart={Keyboard.dismiss}>
-        <View style={{ marginTop: 100, alignItems: 'center' }}>
-          <Text>Introdu numarul de inmatriculare al masinii tale:</Text>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={styles.label}>Introdu numarul de inmatriculare al masinii tale:</Text>
           <TextInput
             onChangeText={text => this.setState({ registrationNumber: text.toUpperCase() })}
             autoCapitalize="characters"
             style={styles.input}
             placeholder="e.g. BZ63VMD"
           />
-          <Button color="#00bcd4" onPress={this.submit} title="Salveaza" />
+          <Text style={styles.label}>Introdu numarul de telefon:</Text>
+          <TextInput
+            onChangeText={text => this.setState({ phoneNumber: text.toUpperCase() })}
+            autoCapitalize="characters"
+            style={styles.input}
+            placeholder="e.g. +40745263009"
+          />
+          <TouchableOpacity onPress={this.submit} style={styles.contactButton}>
+            <Text style={styles.contactLabel}>Salveaza</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );

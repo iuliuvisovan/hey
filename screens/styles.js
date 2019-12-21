@@ -12,12 +12,17 @@ export default StyleSheet.create({
     backgroundColor: '#d6d9dc',
     paddingHorizontal: 8
   },
+  label: {
+    paddingHorizontal: 24,
+    textAlign: 'center',
+    marginTop: 28
+  },
   input: {
     borderWidth: 1,
     borderColor: '#788190',
     padding: 10,
     paddingHorizontal: 15,
-    marginVertical: 10,
+    marginTop: 8,
     width: 150,
     borderRadius: 5
   },
