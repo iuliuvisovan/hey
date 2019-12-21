@@ -17,7 +17,8 @@
     "react-native-screens": "2.0.0-alpha.12",
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.10.3",
-    "react-navigation-tabs": "^2.6.2"
+    "react-navigation-tabs": "^2.6.2",
+    "expo-constants": "~8.0.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0"

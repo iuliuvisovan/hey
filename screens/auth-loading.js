@@ -1,8 +1,9 @@
 import { Component } from 'react';
 import { AsyncStorage } from 'react-native';
 import { Notifications } from 'expo';
+import Constants from 'expo-constants';
 
-const useRemote = false;
+const useRemote = Constants.appOwnership === 'expo';
 global.baseUrl = useRemote ? 'https://hey-server.herokuapp.com' : 'http://127.0.0.1:3000';
 
 export default class AuthLoading extends Component {
