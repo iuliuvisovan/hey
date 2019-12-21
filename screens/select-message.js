@@ -37,25 +37,44 @@ export default class App extends React.Component {
 
   sendMessage = async () => {
     let sentMessages = await AsyncStorage.getItem('sentMessages');
-    if (!sentMessages) sentMessages = [];
-    else sentMessages = JSON.parse(sentMessages);
+    if (sentMessages) {
+      sentMessages = JSON.parse(sentMessages);
+    } else {
+      sentMessages = [];
+    }
 
-    const { query } = this.state;
+    const { selectedMessageId } = this.state;
+    const targetRegistrationNumber = this.props.navigation.getParam('carNumber');
 
     const messagesInLastHour = sentMessages.filter(x => +new Date() - +x.dateTimestamp < 1000 * 60 * 60);
-    const messagesInLastHourToThisGuy = messagesInLastHour.filter(x => x.query == query);
+    const messagesInLastHourToThisGuy = messagesInLastHour.filter(
+      x => x.targetRegistrationNumber == targetRegistrationNumber
+    );
 
     if (messagesInLastHourToThisGuy.length > 5 || messagesInLastHour.length > 10) {
       Alert.alert('Eroare', `Ai trimis prea multe mesaje in ultima vreme.`);
       return;
     }
-    const message = this.state.messages.find(x => x.selected);
-    Alert.alert(`Mesaj trimis catre ${query}:`, `${message.text}`);
+    const message = availableMessages.find(x => x.id == selectedMessageId).text;
+    console.log('sending to', targetRegistrationNumber);
 
-    sentMessages.push({ query, message, dateTimestamp: +new Date() });
+    await fetch(global.baseUrl + '/send-message', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        sourceRegistrationNumber: global.registrationNumber,
+        targetRegistrationNumber,
+        message
+      })
+    });
+
+    sentMessages.push({ targetRegistrationNumber, message, dateTimestamp: +new Date() });
     AsyncStorage.setItem('sentMessages', JSON.stringify(sentMessages));
-    (this.state.messages.find(x => x.selected) || {}).selected = false;
-    this.setState({});
+    Alert.alert(`Mesaj trimis catre ${targetRegistrationNumber}:`, `${message}`);
+    this.props.navigation.goBack();
   };
 
   selectMessage = id => {

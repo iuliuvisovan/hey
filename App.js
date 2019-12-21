@@ -13,7 +13,8 @@ const AppNavigator = createStackNavigator(
         title: 'Cauta numar de inmatriculare'
       }
     },
-    SelectMessage: SelectMessageScreen
+    SelectMessage: SelectMessageScreen,
+    AddNewNumber: LoginScreen
   },
   {
     headerMode: 'screen'
@@ -23,7 +24,7 @@ const AuthNavigator = createStackNavigator({
   Login: {
     screen: LoginScreen,
     navigationOptions: {
-      title: 'Inregistreaza-te'
+      title: 'Adauga contact'
     }
   }
 });

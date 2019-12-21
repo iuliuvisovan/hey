@@ -9,10 +9,8 @@ export default class App extends React.Component {
     availableNumbers: []
   };
 
-  async componentDidMount() {
-    const availableNumbers = await (await fetch(global.baseUrl + '/availableNumbers')).json();
-    this.setState({ availableNumbers });
-    console.log('availableNumbers', availableNumbers);
+  componentDidMount() {
+    this.loadAvailableNumbers();
   }
 
   selectNumber = () => {
@@ -51,13 +49,18 @@ export default class App extends React.Component {
     this.setState({});
   };
 
-  cancel = () => {
-    (this.state.messages.find(x => x.selected) || {}).selected = false;
-    this.setState({ query: '' });
+  loadAvailableNumbers = async () => {
+    const availableNumbers = await (await fetch(global.baseUrl + '/availableNumbers')).json();
+    this.setState({ availableNumbers });
   };
 
-  replyToDriver = query => {
-    this.setState({ query });
+  addNewNumber = () => {
+    console.log('this.state.query', this.state.query);
+
+    this.props.navigation.navigate('AddNewNumber', {
+      targetCarNumber: this.state.query,
+      onSave: this.loadAvailableNumbers
+    });
   };
 
   render() {
@@ -80,9 +83,9 @@ export default class App extends React.Component {
           {query.length > 6 && (
             <>
               {matches.map(x => (
-                <Number number={x} isAvailable onPress={this.selectNumber} />
+                <Number key={x} number={x} isAvailable onPress={this.selectNumber} />
               ))}
-              {!matches.length && <Number number={query} />}
+              {!matches.length && <Number number={query} onPress={this.addNewNumber} />}
             </>
           )}
         </View>
